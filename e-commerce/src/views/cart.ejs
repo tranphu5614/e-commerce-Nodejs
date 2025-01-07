@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Your Cart</title>
+        <link rel="stylesheet" href="/css/common.css">
+        <link rel="stylesheet" href="/css/cart.css">
+    </head>
+    <body>
+        <div class="top-bar">
+            <img src="/images/logo2.png" alt="Logo">
+            <div class="right-section">
+                <div class="links">
+                    <a href="#">Find a Store</a> |
+                    <a href="#">Help</a> |
+                    <a href="#">Join Us</a> |
+                </div>
+                <div class="user-actions">
+                    <% if (user) { %>
+                    <!-- Khi đã đăng nhập, hiển thị avatar -->
+                    <div class="avatar-dropdown">
+                        <p>Hi, <%= user.username %></p>
+                        <img src="<%= user.avatar ? user.avatar : '/images/avatar_default.png' %>" alt="<%= user.name %>" class="avatar">
+                        <div class="dropdown-content">
+                            <p>Account</p>
+                            <a href="/user/profile">Profile</a>
+                            <a href="/invoices">Orders</a>
+                            <a href="/user/profile">Favorite</a>
+                            <a href="/auth/logout?redirect=<%= encodeURIComponent(originalUrl) %>">Logout</a>
+                        </div>
+                    </div>
+                    <% } else { %>
+                    <!-- Khi chưa đăng nhập, hiển thị Login và Register -->
+                    <a href="/auth/login?redirect=<%= encodeURIComponent(originalUrl) %>" class="btn">Login</a> |
+                    <a href="/auth/register?redirect=<%= encodeURIComponent(originalUrl) %>" class="btn">Register</a>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main header -->
+        <header>
+            <!-- Logo section -->
+            <div class="brand-logo">
+                <a href="/products"><img src="/images/logo.png" alt="Nike Logo"></a>
+            </div>
+            
+            <!-- Navigation menu -->
+            <nav class="nav-menu">
+                <a href="#">New & Featured</a>
+                <a href="#">Men</a>
+                <a href="#">Women</a>
+                <a href="#">Kids</a>
+                <a href="#">Sale</a>
+                <a href="#">Customise</a>
+                <a href="#">SNKRS</a>
+            </nav>
+            
+            <!-- Right side search and icons -->
+            <div class="icons">
+                <!-- Search bar -->
+                <div class="search-bar">
+                    <img src="/images/search-icon.png" alt="Search">
+                    <input type="text" placeholder="Search">
+                </div>
+
+                <!-- Favorite icon -->
+                <img src="/images/favorite-icon.png" alt="Favorite">
+
+                <!-- Cart icon -->
+                <a href="/cart"><img src="/images/cart-icon.png" alt="Cart"></a>
+            </div>
+        </header>
+
+        <!-- Bag Section -->
+        <div class="main-cart-container">
+            <!-- Bag Section (Giỏ hàng) -->
+            <div class="cart-container">
+                <h2>Bag</h2>
+                <% if (cart && cart.products.length > 0) { %>
+                    <% cart.products.forEach(function(item) { %>
+                    <div class="cart-item" data-item-id="<%= item._id %>">
+                        <img src="<%= item.productId.images %>" alt="<%= item.productId.name %>">
+                        <div class="product-details">
+                            <h3><%= item.productId.name %></h3>
+                            <p><%= item.productId.category %></p>
+                            <p><%= item.productId.color %></p>
+                            <p>Size: <%= item.size %></p>
+                        </div>
+                        <div class="product-price">
+                            <p>$<%= item.productId.price.toLocaleString() %></p>
+                        </div>
+                        <div class="product-quantity">
+                            <button class="quantity-btn" onclick="updateQuantity('<%= item._id %>', -1)">-</button>
+                            <span id="quantity-<%= item._id %>"><%= item.quantity %></span>
+                            <button class="quantity-btn" onclick="updateQuantity('<%= item._id %>', 1)">+</button>
+                        </div>
+                        <div class="remove-favorite">
+                            <button onclick="removeFromCart('<%= item._id %>')">🗑️</button>
+                            
+                        </div>
+                    </div>
+                    <% }); %>
+                <% } else { %>
+                    <!-- Thông báo giỏ hàng trống -->
+                    <p>Your cart is empty.</p>
+                <% } %>
+            </div>
+            
+
+            <!-- Summary Section -->
+            <div class="summary-container">
+                <h3>Summary</h3>
+                <p>Subtotal: <span id="subtotal">$<%= cart.products.reduce(function(sum, item) { return sum + (item.productId.price * item.quantity); }, 0).toLocaleString() %></span></p>
+                <p>Estimated Delivery & Handling: Free</p>
+                <p>Total: <span id="total">$<%= cart.products.reduce(function(sum, item) { return sum + (item.productId.price * item.quantity); }, 0).toLocaleString() %></span></p>
+                <button id="checkout-btn" class="checkout-btn">Member Checkout</button>
+            </div>
+        </div>
+        <!-- Popup Form -->
+        <div id="checkout-popup" class="popup">
+            <div class="popup-content">
+                <h2>Enter Your Details</h2>
+                <label for="address">Address</label>
+                <input type="text" id="address" placeholder="Enter your address">
+                
+                <label for="phone">Phone Number</label>
+                <input type="text" id="phone" placeholder="Enter your phone number">
+                
+                <div class="popup-actions">
+                    <button id="confirm-btn" class="btn">Confirm</button>
+                    <button id="cancel-btn" class="btn btn-secondary">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <footer style="background-color: #f1f1f1; padding: 20px; text-align: center;">
+            <div>
+                <p>&copy; 2024 YourCompany. All rights reserved.</p>
+                <p>
+                    <a href="/about">About Us</a> | 
+                    <a href="/contact">Contact</a> | 
+                    <a href="/privacy-policy">Privacy Policy</a>
+                </p>
+            </div>
+            
+            <div>
+                <a href="https://facebook.com/YourCompany" target="_blank">Facebook</a> |
+                <a href="https://twitter.com/YourCompany" target="_blank">Twitter</a> |
+                <a href="https://instagram.com/YourCompany" target="_blank">Instagram</a>
+            </div>
+            
+            <div style="margin-top: 10px;">
+                <p>123 Your Street, Your City, Your Country</p>
+                <p>Email: info@yourcompany.com | Phone: +123 456 7890</p>
+            </div>
+        </footer>
+
+        <script>
+            document.getElementById('checkout-btn').addEventListener('click', () => {
+                // Hiển thị popup
+                document.getElementById('checkout-popup').style.display = 'flex';
+            });
+            
+            document.getElementById('cancel-btn').addEventListener('click', () => {
+                // Ẩn popup
+                document.getElementById('checkout-popup').style.display = 'none';
+            });
+            
+            document.getElementById('confirm-btn').addEventListener('click', () => {
+                // Lấy dữ liệu từ popup
+                const address = document.getElementById('address').value;
+                const phone = document.getElementById('phone').value;
+            
+                if (!address || !phone) {
+                    alert('Please enter both address and phone number.');
+                    return;
+                }
+            
+                const cartItems = Array.from(document.querySelectorAll('.cart-item')).map(item => ({
+                    productId: item.dataset.itemId,
+                    quantity: parseInt(item.querySelector('[id^="quantity-"]').textContent),
+                }));
+            
+                const total = document.querySelector("#total").textContent.replace("$", "").replace(/,/g, "");
+            
+                // Gửi dữ liệu đến server
+                fetch('/invoices/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.getItem('token') // Thêm xác thực nếu cần
+                    },
+                    body: JSON.stringify({
+                        cartItems,
+                        total,
+                        address,
+                        phone
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Invoice created successfully!');
+                        document.querySelector('.cart-container').innerHTML = '<p>Your cart is empty.</p>';
+                        document.querySelector('#subtotal').textContent = "$0";
+                        document.querySelector('#total').textContent = "$0";
+            
+                        // Chuyển hướng người dùng đến trang hóa đơn
+                        window.location.href = '/invoices';
+                    } else {
+                        alert(data.message || 'Failed to create invoice.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while creating the invoice.');
+                });
+            
+                // Ẩn popup
+                document.getElementById('checkout-popup').style.display = 'none';
+            });
+                  
+        </script>
+
+        <script>
+            function updateSummary() {
+                const cartItems = Array.from(document.querySelectorAll('.cart-item'));
+                let subtotal = 0;
+            
+                cartItems.forEach(item => {
+                    const quantity = parseInt(item.querySelector('[id^="quantity-"]').textContent);
+                    const price = parseFloat(item.querySelector('.product-price p').textContent.replace("$", "").replace(/,/g, ""));
+                    subtotal += quantity * price;
+                });
+            
+                // Hiển thị giá trị mới
+                document.querySelector("#subtotal").textContent = `$${subtotal.toLocaleString()}`;
+                document.querySelector("#total").textContent = `$${subtotal.toLocaleString()}`;
+            }
+            
+            function updateQuantity(itemId, change) {
+                const currentQuantity = parseInt(document.querySelector("#quantity-" + itemId).textContent);
+                const newQuantity = currentQuantity + change;
+            
+                if (newQuantity <= 0) return; // Không cho phép số lượng <= 0
+            
+                fetch("/cart/updateQuantity/" + itemId, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ change })
+                })
+                .then(function(response) {
+                    return response.json();
+                })
+                .then(function(data) {
+                    if (data.success) {
+                        // Cập nhật số lượng trên giao diện
+                        document.querySelector("#quantity-" + itemId).textContent = newQuantity;
+            
+                        // Cập nhật phần Summary
+                        updateSummary();
+                    } else {
+                        alert('Error updating quantity');
+                    }
+                })
+                .catch(function(error) {
+                    console.error('Error:', error);
+                });
+            }
+            
+            function removeFromCart(itemId) {
+                fetch("/cart/remove/" + itemId, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(function(response) {
+                    return response.json();
+                })
+                .then(function(data) {
+                    if (data.success) {
+                        // Xóa sản phẩm khỏi giao diện
+                        document.querySelector(`[data-item-id="${itemId}"]`).remove();
+            
+                        // Cập nhật phần Summary
+                        updateSummary();
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(function(error) {
+                    console.error('Error:', error);
+                });
+            }
+            
+        </script>
+    </body>
+</html>

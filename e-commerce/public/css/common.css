@@ -1,0 +1,191 @@
+/* common.css */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+}
+
+.container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    margin-top: 20px;
+}
+
+/* Main header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: white;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.nav-menu {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    font: bold 20px "Helvetica Neue", Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-menu li a {
+    text-decoration: none;
+    color: #333;
+}
+
+/* common.css */
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f8f8f8;
+}
+
+.top-bar img {
+    height: 25px;
+}
+
+.right-section {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Khoảng cách giữa các phần tử liên kết và user actions */
+}
+
+.links {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Khoảng cách giữa Welcome và avatar */
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.avatar-dropdown {
+    position: relative; /* Đảm bảo phần tử con được căn chỉnh tương đối với avatar */
+    display: flex;
+    align-items: center;
+}
+
+.avatar-dropdown p {
+    font-weight: bold; /* Làm chữ Account đậm */
+    margin: 0;
+    padding: 10px 20px; /* Căn lề đều cho chữ Account */
+    color: #333; /* Màu chữ mặc định */
+}
+
+.avatar-dropdown img {
+    cursor: pointer;
+}
+
+.dropdown-content {
+    display: none; /* Ẩn mặc định */
+    position: absolute;
+    top: 100%; /* Vị trí ngay dưới avatar */
+    left: 0; /* Canh lề trái */
+    background-color: #ffffff;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Tạo bóng đổ cho dropdown */
+    z-index: 10;
+    min-width: 150px; /* Đặt chiều rộng tối thiểu */
+    padding: 10px 0; /* Khoảng cách bên trong */
+}
+
+.dropdown-content a {
+    display: block;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #888; /* Màu chữ mặc định xám */
+    font-size: 14px;
+    transition: color 0.3s ease; /* Hiệu ứng chuyển màu mượt */
+}
+
+.dropdown-content a:hover {
+    color: #000; /* Khi hover, chuyển màu đen */
+}
+
+.avatar-dropdown:hover .dropdown-content {
+    display: block; /* Hiển thị dropdown khi hover vào avatar-dropdown */
+}
+
+/* Logo area */
+.brand-logo {
+    display: flex;
+    align-items: center;
+}
+
+.brand-logo img {
+    height: 50px;
+    margin-right: 10px;
+}
+
+/* Navigation menu */
+.nav-menu {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-menu a {
+  color: black;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+/* Right side icons */
+.search-bar {
+  display: flex;
+  align-items: center;
+  background-color: #f2f2f2;
+  border-radius: 20px;
+  padding: 5px 10px;
+}
+
+.search-bar input {
+  border: none;
+  background: transparent;
+  outline: none;
+  padding-left: 5px;
+}
+
+.icons {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.icons img {
+  width: 24px;
+  cursor: pointer;
+}

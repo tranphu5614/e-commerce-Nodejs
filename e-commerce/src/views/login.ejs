@@ -1,0 +1,36 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Login</title>
+    <link rel="stylesheet" href="/css/login.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="form-wrapper">
+            <h1 class="form-title">Login</h1>
+            <form action="/auth/login?redirect=<%= encodeURIComponent(originalUrl) %>" method="POST" class="form">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                </div>
+                <% if (message) { %>
+                    <p class="error-message"><%= message %></p>
+                <% } %>
+                <button type="submit" class="btn">Login</button>
+                <p class="form-footer">
+                    Don’t have an account? <a href="/auth/register">Register here</a>
+                </p>
+                <a href="/auth/send-otp">Quên mật khẩu?</a>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

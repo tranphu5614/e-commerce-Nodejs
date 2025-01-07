@@ -1,0 +1,81 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7fc;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Thiết kế hộp chứa form */
+.container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Tiêu đề của trang */
+h1 {
+    text-align: center;
+    color: #2c3e50;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Đoạn văn chào mừng */
+p {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: #7f8c8d;
+    text-align: center;
+}
+
+/* Các label cho input */
+label {
+    font-size: 14px;
+    color: #2c3e50;
+    margin-bottom: 8px;
+    display: block;
+}
+
+/* Các input email */
+input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+/* Style cho button */
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #3498db;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+/* Hiệu ứng cho các lỗi (nếu có) */
+.error {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}

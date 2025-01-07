@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/viewdetail.css"> <!-- CSS nằm trong public -->
+    
+    
+</head>
+<body>
+    <div class="top-bar">
+        <img src="/images/logo2.png" alt="Logo">
+        <div class="right-section">
+            <div class="links">
+                <a href="#">Find a Store</a> |
+                <a href="#">Help</a> |
+                <a href="#">Join Us</a> |
+            </div>
+            <div class="user-actions">
+                <% if (user) { %>
+                <!-- Khi đã đăng nhập, hiển thị avatar -->
+                <div class="avatar-dropdown">
+                <p>Hi, <%= user.username %></p>
+                <img src="<%= user.avatar ? user.avatar : '/images/avatar_default.png' %>" alt="<%= user.name %>" class="avatar">
+                <div class="dropdown-content">
+                    <p>Account</p>
+                    <a href="/user/profile">Profile</a>
+                    <a href="/invoices">Orders</a>
+                    <a href="/user/profile">Favorite</a>
+                    <a href="/auth/logout?redirect=<%= encodeURIComponent(originalUrl) %>">Logout</a>
+                </div>
+            </div>
+            <% } else { %>
+                <!-- Khi chưa đăng nhập, hiển thị Login và Register -->
+                <a href="/auth/login?redirect=<%= encodeURIComponent(originalUrl) %>" class="btn2">Login</a> |
+                <a href="/auth/register?redirect=<%= encodeURIComponent(originalUrl) %>" class="btn2">Register</a>
+            <% } %>
+            </div>
+        </div>
+    </div>
+    <!-- Main header -->
+    <header>
+        <!-- Logo section -->
+        <div class="brand-logo">
+            <a href="/products"><img src="/images/logo.png" alt="Nike Logo"></a>
+        </div>
+
+        <!-- Navigation menu -->
+        <nav class="nav-menu">
+            <a href="#">New & Featured</a>
+            <a href="#">Men</a>
+            <a href="#">Women</a>
+            <a href="#">Kids</a>
+            <a href="#">Sale</a>
+            <a href="#">Customise</a>
+            <a href="#">SNKRS</a>
+        </nav>
+
+        <!-- Right side search and icons -->
+        <div class="icons">
+            <!-- Search bar -->
+            <div class="search-bar">
+                <img src="/images/search-icon.png" alt="Search">
+                <input type="text" placeholder="Search">
+            </div>
+
+            <!-- Favorite icon -->
+            <img src="/images/favorite-icon.png" alt="Favorite">
+            
+            <!-- Cart icon -->
+            <a href="/cart"><img src="/images/cart-icon.png" alt="Cart"></a>
+        </div>
+    </header>
+        
+    </header>
+    <div class="container">
+        <div class="product-image">
+            <img src="<%= product.images %>" alt="<%= product.name %>">
+        </div>
+        <div class="product-info">
+            <h1><%= product.name %></h1>
+            <p><strong>Brand:</strong> <%= product.brand %></p>
+            <p><strong>Price:</strong> $<%= product.price %></p>
+
+            <div class="size-selection">
+                <label>Select size</label>
+                <div class="size-options">
+                    <% for (let i = 31; i <= 43; i++) { %>
+                        <% if (product.size.includes(i)) { %>
+                            <button data-size="<%= i %>" class="size-btn"><%= i %></button>
+                        <% } else { %>
+                            <button class="size-btn unavailable" disabled><%= i %></button>
+                        <% } %>
+                    <% } %>
+                </div>
+            </div>
+            
+            <form id="addToCartForm" action="/cart/add/<%= product._id %>" method="POST">
+                <input type="hidden" name="size" id="selectedSize">
+                <button type="submit" class="btn1">Add to Cart</button>
+            </form>
+
+            <button class="btn" id="view-description">View Product Description</button>
+        </div>
+    </div>
+
+    <!-- Popup Description -->
+    <div class="popup-overlay"></div>
+    <div class="popup">
+        <h2>Description</h2>
+        <p><%= product.description %></p>
+        <button class="btn" id="close-popup">Close</button>
+    </div>
+
+    <footer style="background-color: #f1f1f1; padding: 20px; text-align: center;">
+        <div>
+            <p>&copy; 2024 YourCompany. All rights reserved.</p>
+            <p>
+                <a href="/about">About Us</a> | 
+                <a href="/contact">Contact</a> | 
+                <a href="/privacy-policy">Privacy Policy</a>
+            </p>
+        </div>
+        
+        <div>
+            <a href="https://facebook.com/YourCompany" target="_blank">Facebook</a> |
+            <a href="https://twitter.com/YourCompany" target="_blank">Twitter</a> |
+            <a href="https://instagram.com/YourCompany" target="_blank">Instagram</a>
+        </div>
+        
+        <div style="margin-top: 10px;">
+            <p>123 Your Street, Your City, Your Country</p>
+            <p>Email: info@yourcompany.com | Phone: +123 456 7890</p>
+        </div>
+    </footer>
+
+    <script>
+        // Toggle selected size
+        const sizeButtons = document.querySelectorAll('.size-btn');
+        sizeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                sizeButtons.forEach(btn => btn.classList.remove('selected'));
+                button.classList.add('selected');
+            });
+        });
+
+        // Popup for description
+        const viewDescriptionButton = document.getElementById('view-description');
+        const popup = document.querySelector('.popup');
+        const overlay = document.querySelector('.popup-overlay');
+        const closePopupButton = document.getElementById('close-popup');
+
+        viewDescriptionButton.addEventListener('click', () => {
+            popup.style.display = 'block';
+            overlay.style.display = 'block';
+        });
+
+        closePopupButton.addEventListener('click', () => {
+            popup.style.display = 'none';
+            overlay.style.display = 'none';
+        });
+
+        overlay.addEventListener('click', () => {
+            popup.style.display = 'none';
+            overlay.style.display = 'none';
+        });
+    </script>
+
+    <script>
+        const avatar = document.getElementById('avatar');
+        const dropdownContent = document.getElementById('dropdown-content');
+
+        avatar.addEventListener('click', (event) => {
+            dropdownContent.style.display = dropdownContent.style.display === 'block' ? 'none' : 'block';
+            event.stopPropagation(); // Ngăn chặn sự kiện click lan tỏa
+        });
+
+        // Ẩn dropdown khi nhấn vào vị trí khác
+        document.addEventListener('click', () => {
+            dropdownContent.style.display = 'none';
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const sizeButtons = document.querySelectorAll('.size-btn');
+            const addToCartForm = document.getElementById('addToCartForm');
+            const selectedSizeInput = document.getElementById('selectedSize');
+            const sizeSelectionContainer = document.querySelector('.size-selection');
+        
+            // Add click event for size buttons
+            sizeButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    sizeButtons.forEach(btn => btn.classList.remove('selected'));
+                    button.classList.add('selected');
+                    selectedSizeInput.value = button.getAttribute('data-size');
+                    sizeSelectionContainer.classList.remove('error'); // Remove error state
+                });
+            });
+        
+            // Validate size selection before form submission
+            addToCartForm.addEventListener('submit', (e) => {
+                if (!selectedSizeInput.value) {
+                    e.preventDefault(); // Prevent form submission if no size is selected
+                    sizeSelectionContainer.classList.add('error'); // Add error state
+                }
+            });
+        });
+        
+    </script>
+</body>
+</html>

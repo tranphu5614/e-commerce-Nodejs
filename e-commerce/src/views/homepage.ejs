@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage - All Products</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/homepage.css">
+    <link rel="stylesheet" href="/css/productContainer.css">
+</head>
+<body>
+    <div class="top-bar">
+        <img src="/images/logo2.png" alt="Logo">
+        <div class="right-section">
+            <div class="links">
+                <a href="#">Find a Store</a> |
+                <a href="#">Help</a> |
+                <a href="#">Join Us</a> |
+            </div>
+            <div class="user-actions">
+                <% if (user) { %>
+                <div class="avatar-dropdown">
+                    <p>Hi, <%= user.username %></p>
+                    <img src="<%= user.avatar ? user.avatar : '/images/avatar_default.png' %>" alt="<%= user.name %>" class="avatar">
+                    <div class="dropdown-content">
+                        <p>Account</p>
+                        <a href="/user/profile">Profile</a>
+                        <a href="/invoices">Orders</a>
+                        <a href="/user/profile">Favorite</a>
+                        <a href="/auth/logout?redirect=<%= encodeURIComponent(originalUrl) %>">Logout</a>
+                    </div>
+                </div>
+                <% } else { %>
+                <a href="/auth/login?redirect=<%= encodeURIComponent(originalUrl) %>" class="btn">Login</a> |
+                <a href="/auth/register?redirect=<%= encodeURIComponent(originalUrl) %>" class="btn">Register</a>
+                <% } %>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <div class="brand-logo">
+            <a href="/products"><img src="/images/logo.png" alt="Nike Logo"></a>
+        </div>
+        <nav class="nav-menu">
+            <a href="#">New & Featured</a>
+            <a href="#">Men</a>
+            <a href="#">Women</a>
+            <a href="#">Kids</a>
+            <a href="#">Sale</a>
+            <a href="#">Customise</a>
+            <a href="#">SNKRS</a>
+        </nav>
+        <div class="icons">
+            <div class="search-bar">
+                <img src="/images/search-icon.png" alt="Search">
+                <input type="text" placeholder="Search" id="search-input">
+            </div>
+            <div id="search-results"></div>
+            <img src="/images/favorite-icon.png" alt="Favorite">
+            <a href="/cart"><img src="/images/cart-icon.png" alt="Cart"></a>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Nike Section -->
+        <h1>Nike Products</h1>
+        <div class="brand-section">
+            <div class="product-list">
+                <!-- Nút mũi tên trái -->
+                <button id="arrow-left-nike" class="arrow-button">&lt;</button>
+    
+                <!-- Danh sách sản phẩm Nike -->
+                <ul id="products-container-nike" class="products-grid">
+                    <% nikeProducts.slice(0, 5).forEach(product => { %>
+                        <li class="product-item">
+                            <a href="/products/<%= product._id %>">
+                                <% if (product.images) { %>
+                                    <img src="<%= product.images %>" alt="<%= product.name %>" class="product-image">
+                                <% } else { %>
+                                    <img src="/images/default.png" alt="No Image Available" class="product-image">
+                                <% } %>
+                            </a>
+                            <div class="product-info">
+                                <a href="/products/<%= product._id %>">
+                                    <h2><%= product.name %></h2>
+                                </a>
+                                <p><strong>Brand:</strong> <%= product.brand %></p>
+                                <p><strong>Price:</strong> $<%= product.price %></p>
+                            </div>
+                        </li>
+                    <% }); %>
+                </ul>
+    
+                <!-- Nút mũi tên phải -->
+                <button id="arrow-right-nike" class="arrow-button">&gt;</button>
+            </div>
+        </div>
+    
+        <!-- Adidas Section -->
+        <h1>Adidas Products</h1>
+        <div class="brand-section">
+            <div class="product-list">
+                <!-- Nút mũi tên trái -->
+                <button id="arrow-left-adidas" class="arrow-button">&lt;</button>
+    
+                <!-- Danh sách sản phẩm Adidas -->
+                <ul id="products-container-adidas" class="products-grid">
+                    <% adidasProducts.slice(0, 5).forEach(product => { %>
+                        <li class="product-item">
+                            <a href="/products/<%= product._id %>">
+                                <% if (product.images) { %>
+                                    <img src="<%= product.images %>" alt="<%= product.name %>" class="product-image">
+                                <% } else { %>
+                                    <img src="/images/default.png" alt="No Image Available" class="product-image">
+                                <% } %>
+                            </a>
+                            <div class="product-info">
+                                <a href="/products/<%= product._id %>">
+                                    <h2><%= product.name %></h2>
+                                </a>
+                                <p><strong>Brand:</strong> <%= product.brand %></p>
+                                <p><strong>Price:</strong> $<%= product.price %></p>
+                            </div>
+                        </li>
+                    <% }); %>
+                </ul>
+    
+                <!-- Nút mũi tên phải -->
+                <button id="arrow-right-adidas" class="arrow-button">&gt;</button>
+            </div>
+        </div>
+    </div>
+    
+    <footer style="background-color: #f1f1f1; padding: 20px; text-align: center;">
+        <div>
+            <p>&copy; 2024 YourCompany. All rights reserved.</p>
+            <p>
+                <a href="/about">About Us</a> | 
+                <a href="/contact">Contact</a> | 
+                <a href="/privacy-policy">Privacy Policy</a>
+            </p>
+        </div>
+        
+        <div>
+            <a href="https://facebook.com/YourCompany" target="_blank">Facebook</a> |
+            <a href="https://twitter.com/YourCompany" target="_blank">Twitter</a> |
+            <a href="https://instagram.com/YourCompany" target="_blank">Instagram</a>
+        </div>
+        
+        <div style="margin-top: 10px;">
+            <p>123 Your Street, Your City, Your Country</p>
+            <p>Email: info@yourcompany.com | Phone: +123 456 7890</p>
+        </div>
+    </footer>
+
+    <!-- Data -->
+    <script id="nike-data" type="application/json">
+        <%- JSON.stringify(nikeProducts) %>
+    </script>
+    <script id="adidas-data" type="application/json">
+        <%- JSON.stringify(adidasProducts) %>
+    </script>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Dropdown for avatar
+            const avatar = document.querySelector('.avatar');
+            const dropdownContent = document.querySelector('.dropdown-content');
+        
+            if (avatar && dropdownContent) {
+                avatar.addEventListener('click', (event) => {
+                    dropdownContent.style.display = dropdownContent.style.display === 'block' ? 'none' : 'block';
+                    event.stopPropagation();
+                });
+        
+                document.addEventListener('click', () => {
+                    dropdownContent.style.display = 'none';
+                });
+            } else {
+                console.log('User is not logged in, avatar or dropdown does not exist.');
+            }
+        
+            // Carousel rendering logic
+            function initializeCarousel(products, containerId, leftArrowId, rightArrowId, visibleCount) {
+                const container = document.getElementById(containerId);
+                const leftArrow = document.getElementById(leftArrowId);
+                const rightArrow = document.getElementById(rightArrowId);
+                let startIndex = 0;
+                
+                // Function to render products
+                function renderProducts() {
+                    container.innerHTML = ''; // Clear existing products
+                    const visibleProducts = products.slice(startIndex, startIndex + visibleCount);
+                    visibleProducts.forEach(product => {
+                        const li = document.createElement('li');
+                        li.className = 'product-item';
+                        li.innerHTML = `
+                            <a href="/products/${product._id}">
+                                <img src="${product.images || '/images/default.png'}" alt="${product.name}" class="product-image">
+                            </a>
+                            <div class="product-info">
+                                <a href="/products/${product._id}">
+                                    <h2>${product.name}</h2>
+                                </a>
+                                <p><strong>Brand:</strong> ${product.brand}</p>
+                                <p><strong>Price:</strong> $${product.price}</p>
+                            </div>
+                        `;
+                        container.appendChild(li);
+                    });
+                }
+        
+                // Event listeners for navigation
+                leftArrow.addEventListener('click', () => {
+                    if (startIndex > 0) {
+                        startIndex--;
+                        renderProducts();
+                    }
+                });
+        
+                rightArrow.addEventListener('click', () => {
+                    if (startIndex + visibleCount < products.length) {
+                        startIndex++;
+                        renderProducts();
+                    }
+                });
+        
+                // Initial render
+                renderProducts();
+            }
+        
+            // Initialize carousels for Nike and Adidas
+            const nikeProducts = JSON.parse(document.getElementById('nike-data').textContent);
+            const adidasProducts = JSON.parse(document.getElementById('adidas-data').textContent);
+        
+            initializeCarousel(nikeProducts, 'products-container-nike', 'arrow-left-nike', 'arrow-right-nike', 4);
+            initializeCarousel(adidasProducts, 'products-container-adidas', 'arrow-left-adidas', 'arrow-right-adidas', 4);
+
+        });
+        
+        
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    $(document).ready(function() {
+        $('#search-input').on('input', function() {
+        const query = $(this).val();
+        if (query) {
+            // Gửi yêu cầu tìm kiếm tới server
+            $.get('/products/search', function(data) {
+            $('#search-results').empty(); // Xóa kết quả tìm kiếm cũ
+            if (data.length > 0) {
+                // Hiển thị kết quả tìm kiếm
+                data.forEach(function(product) {
+                $('#search-results').append(`
+                    <div class="search-item">
+                    <a href="/products/${product._id}">
+                        <img src="${product.images[0]}" alt="${product.name}" class="search-item-img">
+                        <span class="search-item-name">${product.name}</span>
+                    </a>
+                    </div>
+                `);
+                });
+            } else {
+                $('#search-results').append('<p>No products found.</p>');
+            }
+            });
+        } else {
+            $('#search-results').empty(); // Xóa kết quả tìm kiếm khi không có từ khóa
+        }
+        });
+    });
+    </script>
+</body>
+</html>

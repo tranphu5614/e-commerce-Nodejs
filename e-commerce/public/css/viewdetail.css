@@ -1,0 +1,189 @@
+/* product-details.css */
+.product-details-container {
+    display: flex;
+    margin: 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.product-details img {
+    width: 50%; /* Ảnh chiếm một nửa màn hình */
+    height: auto;
+}
+
+.product-info {
+    flex: 1;
+    padding: 20px;
+    text-align: left;
+}
+
+.sizes {
+    margin: 10px 0;
+}
+
+.size-btn {
+    padding: 10px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.size-btn.disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.product-details .btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.product-details .btn:hover {
+    background-color: #0056b3;
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: white;
+    border: 2px solid #333;
+    transition: all 0.3s ease;
+}
+
+.size-btn.selected {
+    transition: background-color 0.3s ease;
+}
+/* ---------------------------- */
+.container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.product-image {
+    flex: 1;
+    max-width: 50%;
+}
+
+.product-image img {
+    width: 100%;
+    height: auto;
+}
+
+.product-info {
+    flex: 1;
+    padding-left: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.product-info h1 {
+    margin-bottom: 20px;
+}
+
+.size-options {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.size-options button {
+    padding: 10px 15px;
+    margin: 5px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+}
+
+.size-options button.unavailable {
+    color: #aaa;
+    pointer-events: none;
+}
+
+.size-options button.selected {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Ensure both buttons have the same base styles */
+.btn1, .btn {
+    padding: 10px 20px; /* Same padding */
+    margin: 10px 0;     /* Same margin */
+    background-color: #28a745; /* Green background for Add to Cart */
+    color: white; /* White text */
+    text-decoration: none; /* Remove underline */
+    text-align: center; /* Center text */
+    display: inline-block; /* To make them behave like buttons */
+    border-radius: 5px; /* Rounded corners */
+    width: 100%; /* Ensure they stretch to the same width */
+    max-width: 250px; /* Optional: limit maximum width to avoid buttons stretching too much */
+    box-sizing: border-box; /* Ensure padding is included in width calculation */
+}
+
+.btn1 {
+    background-color: #28a745; /* Green for Add to Cart */
+}
+
+#view-description {
+    background-color: #007bff; /* Blue for View Product Details */
+}
+
+/* Make the hover effect the same for both buttons */
+.btn1:hover, .btn:hover, #view-description:hover {
+    background-color: #0056b3; /* Darker shade for hover effect */
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border: 1px solid #ddd;
+    z-index: 1000;
+    
+}
+
+.popup-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+.size-selection {
+    border: 2px solid #ddd;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+}
+
+.size-selection.error {
+    border-color: red;
+}
+
+.size-selection label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.size-btn.selected {
+    background-color: #333; /* Example color for selected */
+    color: #fff;
+}

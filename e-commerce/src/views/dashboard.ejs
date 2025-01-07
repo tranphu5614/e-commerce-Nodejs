@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h2>Admin Dashboard</h2>
+            <ul>
+                <li><a href="#products" onclick="showTab('products')" class="active">Products</a></li>
+                <li><a href="#customers" onclick="showTab('customers')">Customers</a></li>
+                <li><a href="#invoices" onclick="showTab('invoices')">Invoices</a></li>
+                <li><a href="#revenue" onclick="showTab('revenue')">Revenue</a></li>
+            </ul>
+        </div>
+
+        <!-- Main content -->
+        <div class="main-content">
+            <!-- Products Section -->
+            <section id="products" class="content-section active">
+                <h1>Products</h1>
+                <form action="/products/add" method="GET">
+                    <button class="btn-add">Add Product</button>
+                </form>
+                <table>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Brand</th>
+                        <th>Price</th>
+                        <th>Size</th>
+                        <th>Color</th>
+                        <th>Category</th>
+                        <th>Stock</th>
+                        <th>Images</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                    <% products.forEach(product => { %>
+                    <tr>
+                        <td><%= product._id %></td>
+                        <td><%= product.name %></td>
+                        <td><%= product.brand %></td>
+                        <td>$<%= product.price %></td>
+                        <td><%= product.size.join(', ') %></td>
+                        <td><%= product.color %></td>
+                        <td><%= product.category %></td>
+                        <td><%= product.stock %></td>
+                        <td>
+                        <% product.images.forEach(image => { %>
+                            <img src="<%= image %>" alt="Product Image" style="width:50px;height:50px;">
+                        <% }) %>
+                        </td>
+                        <td><%= product.description %></td>
+                        <td>
+                            <form action="/products/update/<%= product._id %>" method="GET">
+                                <button class="btn-edit">Edit</button>
+                            </form>
+                            <form action="/products/delete/<%= product._id %>" method="POST" onsubmit="return confirm('Are you sure you want to delete this product?');">
+                                <button class="btn-delete">Delete</button>
+                            </form>                            
+                        </td>
+                    </tr>
+                    <% }) %>
+                </table>
+                <nav>
+                    <% if (currentPageProduct > 1) { %>
+                        <a href="?userPage=<%= currentPageUser %>&productPage=<%= currentPageProduct - 1 %>#products">Previous</a>
+                    <% } %>
+                    <% for (let i = 1; i <= totalPagesProducts; i++) { %>
+                        <a href="?userPage=<%= currentPageUser %>&productPage=<%= i %>#products"><%= i %></a>
+                    <% } %>
+                    <% if (currentPageProduct < totalPagesProducts) { %>
+                        <a href="?userPage=<%= currentPageUser %>&productPage=<%= currentPageProduct + 1 %>#products">Next</a>
+                    <% } %>
+                </nav>   
+            </section>
+
+
+            <!-- Customers Section -->
+            <section id="customers" class="content-section">
+                <h1>Customers</h1>
+                <a href="/auth/register"><button class="btn-add">Add Customer</button></a>
+                <table>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Password</th>
+                        <th>Avatar</th>
+                        <th>Actions</th>
+                    </tr>
+                    <% users.forEach(user => { %>
+                    <tr>
+                        <td><%= user._id %></td>
+                        <td><%= user.username %></td>
+                        <td><%= user.password %></td>
+                        <td>
+                            <% if (user.images) { %>
+                                <img src="<%= user.images %>" alt="User Avatar" style="width:50px;height:50px;">
+                            <% } else { %>
+                                No Avatar
+                            <% } %>
+                        </td>
+                    </tr>
+                    <% }) %>
+                </table>
+                <!-- Phân trang cho Users (Customers) -->
+                <nav>
+                    <% if (currentPageUser > 1) { %>
+                        <a href="?userPage=<%= currentPageUser - 1 %>&productPage=<%= currentPageProduct %>#customers">Previous</a>
+                    <% } %>
+                    <% for (let i = 1; i <= totalPagesUsers; i++) { %>
+                        <a href="?userPage=<%= i %>&productPage=<%= currentPageProduct %>#customers"><%= i %></a>
+                    <% } %>
+                    <% if (currentPageUser < totalPagesUsers) { %>
+                        <a href="?userPage=<%= currentPageUser + 1 %>&productPage=<%= currentPageProduct %>#customers">Next</a>
+                    <% } %>
+                </nav>
+            </section>
+
+            <!-- Invoices Section -->
+            <section id="invoices" class="content-section">
+                <h1>Invoices</h1>
+                <table>
+                    <tr>
+                        <th>Username</th>
+                        <th>Purchase Date</th>
+                        <th>Invoice Value</th>
+                    </tr>
+                    <% invoices.forEach(inv => { %>
+                        <tr>
+                            <td><%= inv.username %></td>
+                            <td><%= inv.purchaseDate %></td>
+                            <td><%= inv.total %></td>
+                        </tr>
+                        <% }) %>
+                    </table>
+                    <!-- Phân trang cho Invoices -->
+                    <nav>
+                        <% if (currentPageInvoice > 1) { %>
+                            <a href="?userPage=<%= currentPageUser %>&productPage=<%= currentPageProduct %>&invoicePage=<%= currentPageInvoice - 1 %>#invoices">Previous</a>
+                        <% } %>
+                        <% for (let i = 1; i <= totalPagesInvoices; i++) { %>
+                            <a href="?userPage=<%= currentPageUser %>&productPage=<%= currentPageProduct %>&invoicePage=<%= i %>#invoices"
+                            class="<%= i === currentPageInvoice ? 'active' : '' %>">
+                                <%= i %>
+                            </a>
+                        <% } %>
+                        <% if (currentPageInvoice < totalPagesInvoices) { %>
+                            <a href="?userPage=<%= currentPageUser %>&productPage=<%= currentPageProduct %>&invoicePage=<%= currentPageInvoice + 1 %>#invoices">Next</a>
+                        <% } %>
+                    </nav>
+                </table>
+            </section>
+
+            <!-- Revenue Section -->
+            <section id="revenue" class="content-section">
+                <h1>Revenue</h1>
+                <h3>Total Revenue</h3>
+                <p>$5000</p>
+                <h3>Products Sold</h3>
+                <p>Brand X: 50</p>
+                <p>Brand Y: 30</p>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        // Function to handle tab switching
+        function showTab(tabId) {
+            // Remove active class from all links
+            const links = document.querySelectorAll('.sidebar ul li a');
+            links.forEach(link => link.classList.remove('active'));
+    
+            // Add active class to the clicked link
+            const activeLink = document.querySelector(`a[href="#${tabId}"]`);
+            activeLink.classList.add('active');
+    
+            // Hide all content sections
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => section.classList.remove('active'));
+    
+            // Show the selected tab's content
+            const activeSection = document.getElementById(tabId);
+            activeSection.classList.add('active');
+        }
+    
+        // Function to load the correct tab based on URL hash
+        function loadTabFromHash() {
+            const hash = window.location.hash; // Get the current hash from the URL
+            const defaultTab = 'products';  // Set default tab
+            if (hash) {
+                showTab(hash.substring(1));  // Load the tab corresponding to the hash (remove the '#' from the hash)
+            } else {
+                showTab(defaultTab);  // Load the default tab
+            }
+        }
+    
+        // Load the correct tab on page load
+        window.onload = loadTabFromHash;
+    
+        // Re-load the correct tab when hash changes (e.g., when user clicks the browser back button)
+        window.onhashchange = loadTabFromHash;
+    </script>
+    
+</body>
+</html>

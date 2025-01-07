@@ -1,0 +1,133 @@
+/* Tổng thể container */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Container bên trong */
+.brand-section {
+    margin-bottom: 50px; /* Tạo khoảng cách giữa hai thương hiệu */
+}
+
+.brand-section h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+/* Danh sách sản phẩm */
+.products-grid {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    width: 100%;
+}
+
+.product-item {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: calc(25% - 15px); /* 5 sản phẩm trên 1 dòng */
+    min-width: 200px;
+}
+
+.product-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.product-image {
+    max-width: 100%;
+    height: 200px; /* Đặt chiều cao cố định cho ảnh */
+    width: 200px; /* Đặt chiều rộng cố định cho ảnh */
+    object-fit: cover; /* Đảm bảo ảnh được cắt cỡ hợp lý */
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.product-info h2 {
+    font-size: 1.2em;
+    color: #333;
+    margin: 10px 0;
+}
+
+.product-info p {
+    font-size: 0.9em;
+    color: #555;
+}
+
+.product-info a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.product-info a:hover {
+    color: #007bff;
+}
+
+/* Nút mũi tên */
+/* Đảm bảo phần tử chứa có position relative */
+.product-list {
+    position: relative; /* Đảm bảo phần tử chứa có thể chứa các nút mũi tên */
+    display: flex;
+    overflow: hidden; /* Để ẩn bớt các sản phẩm khi chúng bị tràn ra ngoài */
+}
+
+/* Căn chỉnh các nút mũi tên */
+.arrow-button {
+    position: absolute;
+    top: 50%; /* Căn giữa theo chiều dọc */
+    transform: translateY(-50%); /* Điều chỉnh căn giữa theo chiều dọc */
+    font-size: 24px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #333; /* Màu sắc của mũi tên */
+    z-index: 10; /* Đảm bảo mũi tên không bị che khuất */
+}
+
+/* Mũi tên trái */
+#arrow-left-nike, #arrow-left-adidas {
+    left: 10px; /* Đưa mũi tên trái sang trái */
+}
+
+/* Mũi tên phải */
+#arrow-right-nike, #arrow-right-adidas {
+    right: 10px; /* Đưa mũi tên phải sang phải */
+}
+
+
+/* Đáp ứng */
+@media (max-width: 768px) {
+    .product-item {
+        width: calc(50% - 10px); /* 2 sản phẩm trên 1 dòng */
+    }
+
+    .arrow-button {
+        width: 30px;
+        height: 30px;
+        font-size: 1.2em;
+    }
+}
+
+@media (max-width: 480px) {
+    .product-item {
+        width: 100%; /* 1 sản phẩm trên 1 dòng */
+    }
+}

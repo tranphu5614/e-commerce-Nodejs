@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage - All Products</title>
+    <link rel="stylesheet" href="/css/common.css">
+     <!-- Link to CSS file -->
+    <link rel="stylesheet" href="/css/profile.css"> 
+</head>
+<body>
+    <div class="top-bar">
+        <img src="/images/logo2.png" alt="Logo">
+        <div class="right-section">
+            <div class="links">
+                <a href="#">Find a Store</a> |
+                <a href="#">Help</a> |
+                <a href="#">Join Us</a> |
+            </div>
+            <div class="user-actions">
+                <% if (user) { %>
+                <!-- Khi đã đăng nhập, hiển thị avatar -->
+                <div class="avatar-dropdown">
+                <p>Hi, <%= user.username %></p>
+                <img src="<%= user.avatar ? user.avatar : '/images/avatar_default.png' %>" alt="<%= user.name %>" class="avatar">
+                <div class="dropdown-content">
+                    <p>Account</p>
+                    <a href="/user/profile">Profile</a>
+                    <a href="/invoices">Orders</a>
+                    <a href="/user/profile">Favorite</a>
+                    <a href="/auth/logout">Logout</a>
+                </div>
+            </div>
+            <% } else { %>
+                <!-- Khi chưa đăng nhập, hiển thị Login và Register -->
+                <a href="/auth/login?redirect=<%= encodeURIComponent(originalUrl) %>" class="btn">Login</a> |
+                <a href="/auth/register?redirect=<%= encodeURIComponent(originalUrl) %>" class="btn">Register</a>
+            <% } %>
+            </div>
+        </div>
+    </div>
+    <!-- Main header -->
+    <header>
+        <!-- Logo section -->
+        <div class="brand-logo">
+            <a href="/products"><img src="/images/logo.png" alt="Nike Logo"></a>
+        </div>
+
+        <!-- Navigation menu -->
+        <nav class="nav-menu">
+            <a href="#">New & Featured</a>
+            <a href="#">Men</a>
+            <a href="#">Women</a>
+            <a href="#">Kids</a>
+            <a href="#">Sale</a>
+            <a href="#">Customise</a>
+            <a href="#">SNKRS</a>
+        </nav>
+
+        <!-- Right side search and icons -->
+        <div class="icons">
+            <!-- Search bar -->
+            <div class="search-bar">
+                <img src="/images/search-icon.png" alt="Search">
+                <input type="text" placeholder="Search">
+            </div>
+
+            <!-- Favorite icon -->
+            <img src="/images/favorite-icon.png" alt="Favorite">
+            
+            <!-- Cart icon -->
+             <a href="/cart"><img src="/images/cart-icon.png" alt="Cart"></a>
+        </div>
+    </header>
+    
+    <section class="user-details">
+        <h2>Your Details</h2>
+        <div class="details">
+            <img src="<%= user.images || '/images/avatar_default.png' %>" alt="User Avatar" class="user-avatar">
+            <p><strong>Username:</strong> <span class="user-info"><%= user.username %></span></p>
+            <p><strong>Role:</strong> <span class="user-info"><%= user.role %></span></p>
+            <p><strong>Email:</strong> <span class="user-info"><%= user.email %></span></p>
+            <a href="/auth/change-password" class="btn btn-primary">Change Password</a>
+        </div>
+    </section>
+    
+    <hr>
+    
+    <section class="edit-profile">
+        <h2>Edit Profile</h2>
+        <form action="/user/profile" method="POST" enctype="multipart/form-data" class="form-edit">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" value="<%= user.username %>" placeholder="Enter your username" class="input-text">
+            </div>
+            <div class="form-group">
+                <label for="images">Upload Avatar:</label>
+                <input type="file" id="images" name="images" class="input-file">
+            </div>
+            <button type="submit" class="btn btn-save">Update Profile</button>
+        </form>
+    </section>
+    
+    <hr>
+    
+    <div class="logout">
+        <a href="/auth/logout" class="btn btn-danger">Logout</a>
+    </div>
+</body>
+</html>
